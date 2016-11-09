@@ -1,0 +1,17 @@
+extends ../layout
+
+block content
+ h1.
+  User ID #{user._id}
+ form(action='/users/#{user._id}/edit',method='post',name='updateuser',enctype='application/x-www-form-urlencoded')
+  p User:
+  input#inputName(type='text', name='user')
+  p Comment:
+  input#inputMessage(type='text', name='comment')
+  p
+  input(type='hidden',value='#{user.counter}',name='counter')
+  p
+  input(type='hidden',value='PUT',name='_method')
+  p
+   button#btnSubmit(type='submit').
+    Update
