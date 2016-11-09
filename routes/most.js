@@ -10,22 +10,23 @@ router.get('/', function(req, res, next) {
   var id = this._id
   var arr = this.comment.split(" ")
   arr.forEach(function(single){
-    var key = {
-      palabra: single,
-      id_palabra: id
-    }
     emit(single,1)
     })
   }
   o.reduce = function (k, vals) {
     return vals.length
   }
-
-    mongoose.model('Comment').mapReduce(o,function(err,results){
-      var r = results.sort().reverse();
-      console.log(r);
-      res.render('most', { title: 'Most Used Words'});
+    var promise = mongoose.model('Comment').mapReduce(o);
+    promise.then(function (model, stats){
+      return model.find().sort('value');
+    }).then(function(docs){
+      console.log(docs)
     })
+
+    // mongoose.model('Comment').mapReduce(o).opt({sort:'value'}).exec(function(err,results){
+    //   console.log(results);
+       res.render('most', { title: 'Most Used Words'});
+    // })
 
 
 
