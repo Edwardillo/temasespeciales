@@ -7,3 +7,10 @@ block content
     p User: #{user.name}
     p Message: #{user.message}
     P Counter: #{user.counter}
+    ul
+      each c in user.comments
+        li
+          = "usuario: "
+          = c.user
+          = " comentario: "
+          = c.comment

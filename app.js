@@ -10,7 +10,8 @@ var db = require('./model/db'),
 
 var index = require('./routes/index'),
   users = require('./routes/users'),
-  tops = require('./routes/top');
+  tops = require('./routes/top'),
+  mosts = require('./routes/most')
 
 var app = express();
 
@@ -28,7 +29,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/top',tops)
+app.use('/top',tops);
+app.use('/most',mosts);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

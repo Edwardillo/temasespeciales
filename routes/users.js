@@ -115,7 +115,8 @@ router.param('id', function(req, res, next, id) {
 
 router.route('/:id')
   .get(function(req, res) {
-    mongoose.model('User').findById(req.id, function (err, user) {
+    mongoose.model('User').findById(req.id).populate('comments').exec( function (err, user) {
+      console.log(user.comments);
       if (err) {
         console.log('GET Error: There was a problem retrieving: ' + err);
       } else {
@@ -181,18 +182,18 @@ router.route('/:id/edit')
               $push: {"comments": comment._id}
             },function(err,user){
               if(err){
-                if(err){
                   res.send("couldn't save user" + err)
-                }else{
-                  res.format({
-                    html: function(){
-                      res.redirect("users"+ user._id);
-                    },
-                    json:function(){
-                      res.json(user);
-                    }
-                  })
-                }
+              }
+              else{
+                console.log("hi");
+                res.format({
+                  html: function(){
+                    res.redirect("/users/"+req.id);
+                  },
+                  json:function(){
+                    res.json(user);
+                  }
+                })
               }
             })
           }
